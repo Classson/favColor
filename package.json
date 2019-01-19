@@ -1,0 +1,27 @@
+{
+  "name": "favcolor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Classson/favColor.git"
+  },
+  "author": "Alex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Classson/favColor/issues"
+  },
+  "homepage": "https://github.com/Classson/favColor#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "html-template-tag": "^2.0.0",
+    "morgan": "^1.9.1",
+    "sequelize": "^4.42.0"
+  }
+}
