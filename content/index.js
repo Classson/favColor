@@ -3,6 +3,7 @@ const router = require('express').Router();
 const express = require('express')
 const bodyParser = require('body-parser');
 const html = require("html-template-tag");
+const EventEmitter = require( 'events' );
 const { db, User } = require('../data');
 router.use(bodyParser.json());
 router.use(express.urlencoded({ extended: false }));
@@ -47,19 +48,18 @@ router.get('/', async (req, res, next) => {
         <button type=submit>submit</button>
       </form>
       <div id='allUsers'>
-      <ul class="list-unstyled">
+        <ul class="list-unstyled">
     <ul>
-    ${users.map(user => html`<li><p>${user.name}</p></li>`)}
+      ${pages.map(page => html`<li><a href="/wiki/${page.slug}">${page.title}</a></li>`)}
     </ul>
   </ul>
+    ${users.map(user => html`<div id=${user.name}><p>${user.name}</p>`)}
       </div>
     </body>
+    <script type="text/javascript" src="/script.js"></script>
     </html>`)
   }
   catch(error){ next(error) }
 })
-
-
-
 
 module.exports = router;
