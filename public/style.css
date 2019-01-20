@@ -18,6 +18,11 @@ button {
   height: 25px;
 }
 
+.edit {
+  height: 20px;
+  width: 35px;
+}
+
 form {
   color: #3d3b3b;
   margin: 0px auto 40px auto;
@@ -56,6 +61,7 @@ li {
   height: 50px;
   margin: 15px;
   background-color: darkslategray;
+  border-radius: 8px;
   color: whitesmoke;
   font-size: 24px;
   justify-self: center;

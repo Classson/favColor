@@ -55,7 +55,7 @@ router.get('/', async (req, res, next) => {
           </form>
           <div id="allUsers">
             <ul class="list-unstyled">
-              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p></li>`)}
+              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p><button class="edit" id=${user.name}>edit</button></li>`)}
             </ul>
           </div>
         </body>
