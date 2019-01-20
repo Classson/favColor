@@ -1,12 +1,15 @@
 console.log('connected')
 
 const colorChange = (event) => {
-  console.log(event.target.id)
+  if(event.target.className === 'name'){
+    document.body.style.backgroundImage = 'none';
+    document.body.style.backgroundColor = event.target.id;
+  }
 }
 
-const userButtons = document.getElementById('test');
+const userGrid = document.getElementById('allUsers');
 
-userButtons.addEventListener('click', colorChange);
+userGrid.addEventListener('click', colorChange);
 
 
 // userButtons.addEventListener('click', colorChange());
