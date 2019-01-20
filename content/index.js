@@ -3,20 +3,31 @@ const router = require('express').Router();
 const express = require('express')
 const bodyParser = require('body-parser');
 const html = require("html-template-tag");
+const { db, User } = require('../data');
+router.use(bodyParser.json());
 router.use(express.urlencoded({ extended: false }));
 
+//why does this need to be above get
 router.post('/', (req, res, next) => {
+  let name = req.body.name;
+  let color = req.body.color;
+  let user = new User ({
+    name: name,
+    color: color
+  })
   try {
-    let name = req.body.name;
-    let color = req.body.color;
+    user.save();
     res.redirect('/');
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try{
+    const users = await User.findAll();
+    console.log(users.body);
+
     res.send( html`<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -35,6 +46,13 @@ router.get('/', (req, res, next) => {
         <input name='color' type="color">
         <button type=submit>submit</button>
       </form>
+      <div id='allUsers'>
+      <ul class="list-unstyled">
+    <ul>
+    ${users.map(user => html`<li><p>${user.name}</p></li>`)}
+    </ul>
+  </ul>
+      </div>
     </body>
     </html>`)
   }

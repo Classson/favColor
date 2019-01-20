@@ -21,7 +21,9 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "html-template-tag": "^2.0.0",
+    "http": "0.0.0",
     "morgan": "^1.9.1",
+    "pg": "^6.4.2",
     "sequelize": "^4.42.0"
   }
 }
