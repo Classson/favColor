@@ -7,6 +7,61 @@ const { db, User } = require('../data');
 router.use(bodyParser.json());
 router.use(express.urlencoded({ extended: false }));
 
+
+router.get('/:name', async (req, res, next) => {
+  try {
+    const editName = req.params.name;
+    console.log('got the name ', editName)
+
+    res.send(html`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+          <link rel="stylesheet" href="/style.css" />
+          <title>What's Your Favorite Color?</title>
+        </head>
+        <body>
+          <h1>Edit ${editName}</h1>
+          <form id="editForm" method="POST" action="/">
+          <div class ='form-el'>
+            <label>What's ${editName}'s New Favorite Color?</label>
+            <input name="color" type="color" />
+            <button id ="update" type="submit">Update</button>
+          </div>
+          <div class ='form-el'>
+            <label id="deleteLab">Actually, ${editName}'s is forever evolving and cannot be pinned down. Just delete them from this database.</label><br><br>
+            <a href="/${editName}/delete" id="delete">Delete</a>
+          </div>
+          </form>
+        </body>
+        <script type="text/javascript" src="/add.js"></script>
+      </html>
+    `);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:name/delete', async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        name: req.params.name
+      }
+    })
+    res.redirect('/')
+  }
+  catch (error){ next(error)}
+
+});
+
+
 //why does this need to be above get
 router.post('/', (req, res, next) => {
   let name = req.body.name;
@@ -55,7 +110,7 @@ router.get('/', async (req, res, next) => {
           </form>
           <div id="allUsers">
             <ul class="list-unstyled">
-              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p><button class="edit" id=${user.name}>edit</button></li>`)}
+              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p><a class="edit" href="/${user.name}">edit</a></li>`)}
             </ul>
           </div>
         </body>
