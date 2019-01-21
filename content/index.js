@@ -8,10 +8,11 @@ router.use(bodyParser.json());
 router.use(express.urlencoded({ extended: false }));
 
 
-router.get('/:name', async (req, res, next) => {
+
+
+router.get('/:name/edit', async (req, res, next) => {
   try {
     const editName = req.params.name;
-    console.log('got the name ', editName)
 
     res.send(html`
       <!DOCTYPE html>
@@ -28,7 +29,7 @@ router.get('/:name', async (req, res, next) => {
         </head>
         <body>
           <h1>Edit ${editName}</h1>
-          <form id="editForm" method="POST" action="/">
+          <form id="editForm" method="POST" action="/${editName}/edit">
           <div class ='form-el'>
             <label>What's ${editName}'s New Favorite Color?</label>
             <input name="color" type="color" />
@@ -40,9 +41,28 @@ router.get('/:name', async (req, res, next) => {
           </div>
           </form>
         </body>
-        <script type="text/javascript" src="/add.js"></script>
       </html>
     `);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+router.post ('/:name/edit', async (req, res, next) => {
+  try {
+    const editName = req.params.name;
+    const newColor = req.body.color;
+    const user = await User.findOne({
+      where: {
+        name: editName
+      }
+    })
+    const updatedUser = await user.update({
+      color: newColor
+    })
+
+    res.redirect('/');
   } catch (error) {
     next(error);
   }
@@ -81,7 +101,6 @@ router.post('/', (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll();
-    console.log(users.body);
 
     res.send(html`
       <!DOCTYPE html>
@@ -110,7 +129,7 @@ router.get('/', async (req, res, next) => {
           </form>
           <div id="allUsers">
             <ul class="list-unstyled">
-              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p><a class="edit" href="/${user.name}">edit</a></li>`)}
+              ${users.map(user => html`<li><p class="name" id=${user.color}>${user.name}</p><a class="edit" href="/${user.name}/edit">edit</a></li>`)}
             </ul>
           </div>
         </body>
