@@ -10,7 +10,7 @@ router.use(express.urlencoded({ extended: false }));
 
 
 
-router.get('/:name/edit', async (req, res, next) => {
+router.get('/:name/edit', (req, res, next) => {
   try {
     const editName = req.params.name;
 
@@ -36,7 +36,7 @@ router.get('/:name/edit', async (req, res, next) => {
             <button id ="update" type="submit">Update</button>
           </div>
           <div class ='form-el'>
-            <label id="deleteLab">Actually, ${editName}'s is forever evolving and cannot be pinned down. Just delete them from this database.</label><br><br>
+            <label id="deleteLab">Actually, ${editName} is forever evolving and cannot be pinned down. Just delete them from this database.</label><br><br>
             <a href="/${editName}/delete" id="delete">Delete</a>
           </div>
           </form>
@@ -83,15 +83,15 @@ router.get('/:name/delete', async (req, res, next) => {
 
 
 //why does this need to be above get
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   let name = req.body.name;
   let color = req.body.color;
-  let user = new User({
+  let user =  await new User({
     name: name,
     color: color,
   });
   try {
-    user.save();
+     await user.save();
     res.redirect('/');
   } catch (error) {
     next(error);

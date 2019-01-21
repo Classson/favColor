@@ -10,6 +10,3 @@ const colorChange = (event) => {
 const userGrid = document.getElementById('allUsers');
 
 userGrid.addEventListener('click', colorChange);
-
-
-// userButtons.addEventListener('click', colorChange());
