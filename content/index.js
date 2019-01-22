@@ -10,10 +10,15 @@ router.use(express.urlencoded({ extended: false }));
 
 
 
-router.get('/:name/edit', (req, res, next) => {
+router.get('/:name/edit', async (req, res, next) => {
   try {
     const editName = req.params.name;
-
+    const user = await User.findOne({
+      where: {
+        name: editName
+      }
+    })
+    const editColorStyle = `border: solid 3px ${user.color}`;
     res.send(html`
       <!DOCTYPE html>
       <html lang="en">
@@ -29,7 +34,8 @@ router.get('/:name/edit', (req, res, next) => {
         </head>
         <body>
           <h1>Edit ${editName}</h1>
-          <form id="editForm" method="POST" action="/${editName}/edit">
+          <form id="editForm" method="POST" style="${editColorStyle}"
+action="/${editName}/edit">
           <div class ='form-el'>
             <label>What's ${editName}'s New Favorite Color?</label>
             <input name="color" type="color" />
